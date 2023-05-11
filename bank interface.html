@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bank Interface</title>
+    <style>
+      
+      /* Reset default browser styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      /* Style for the body */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+      
+      /* Style for the header */
+      header {
+        background-color: #2d4059;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
+      
+      /* Style for the main content area */
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        margin-top: 50px;
+      }
+      
+      /* Style for the payment form */
+      form {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #eaeaea;
+        border-radius: 5px;
+      }
+      
+      /* Style for the form fields */
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      
+      input[type="text"],
+      input[type="number"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      
+      select {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      
+      /* Style for the payment button */
+      input[type="submit"] {
+        background-color: #2d4059;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+      /* Style for the footer */
+      footer {
+        background-color: #2d4059;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to our Bank Interface</h1>
+
+    <button id="payment-btn">Make a Payment</button>
+
+    <div id="payment-form" style="display:none;">
+      <h2>Payment Details</h2>
+      <form>
+        <label for="amount">Amount:</label>
+        <input type="number" name="amount" id="amount" required>
+
+        <label for="recipient">Recipient:</label>
+        <input type="text" name="recipient" id="recipient" required>
+
+        <label for="method">Payment Method:</label>
+        <select name="method" id="method" required>
+          <option value="credit-card">Credit Card</option>
+          <option value="bank-transfer">Bank Transfer</option>
+        </select>
+
+        <button type="submit" id="submit-btn">Submit</button>
+      </form>
+    </div>
+
+    <div id="payment-result" style="display:none;"></div>
+
+    <script>
+      const paymentBtn = document.getElementById("payment-btn");
+      const paymentForm = document.getElementById("payment-form");
+      const paymentResult = document.getElementById("payment-result");
+      const submitBtn = document.getElementById("submit-btn");
+
+      paymentBtn.addEventListener("click", () => {
+        paymentForm.style.display = "block";
+      });
+
+      submitBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const amount = document.getElementById("amount").value;
+        const recipient = document.getElementById("recipient").value;
+        const method = document.getElementById("method").value;
+
+        // perform input validation here
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/make-payment");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            paymentResult.textContent = "Payment Successful";
+          } else {
+            paymentResult.textContent = "Payment Failed: " + xhr.statusText;
+          }
+          paymentResult.style.display = "block";
+        };
+        xhr.onerror = () => {
+          paymentResult.textContent = "Payment Failed: Network Error";
+          paymentResult.style.display = "block";
+        };
+        xhr.send(JSON.stringify({ amount, recipient, method }));
+      });
+    </script>
+  </body>
+</html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
